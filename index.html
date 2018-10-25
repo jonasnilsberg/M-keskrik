@@ -29,10 +29,10 @@
                     <div class="img-wrapper hidden" data-sound='seagulls' data-num=4>
                         <img src="img/tare.jpg">  
                     </div>
-                    <div class="img-wrapper hidden" data-sound='seagulls' data-num=5>
+                    <div class="img-wrapper hidden" data-sound='jonas' data-num=5>
                         <img src="img/jonas.jpg"> 
                     </div>
-                    <div class="img-wrapper hidden" data-sound='seagulls' data-num=6>
+                    <div class="img-wrapper hidden" data-sound='einar' data-num=6>
                             <img class="img-einar" src="img/einar.jpg"> 
                     </div>
                     <div class="navigation">
@@ -50,8 +50,11 @@
     <script>
         var imageCount = 6;
         let imageTracker = 1;
+        let audio_obj = document.createElement("audio");
         var sounds = {
-            'seagulls': 'gull.mp3'
+            'seagulls': 'gull.mp3',
+            'einar': 'Einar.mp3',
+            'jonas': 'Jonas.mp3'
         }
         var myElement = document.getElementById('element');
         var mc = new Hammer(myElement);
@@ -60,11 +63,10 @@
 
 
             $('.img-wrapper').click(function(e) {
-                let obj = document.createElement("audio");
                 let soundType = $(this).data('sound');
                 let soundFile = sounds[soundType];
-                obj.src = `sounds/${sounds[soundType]}`;
-                obj.play();
+                audio_obj.src = `sounds/${sounds[soundType]}`;
+                audio_obj.play();
 
             });
 
