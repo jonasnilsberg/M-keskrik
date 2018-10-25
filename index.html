@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+        <head>
+            <link rel="stylesheet" type="text/css" href="index.css">
+            <link rel = "stylesheet" href = "https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+
+            <meta charset="UTF-8">
+        </head>
+    <body>
+        <div class="wrapper">
+            <div class="main-header">
+                <h1>Måkeskrik</h1>
+                <h2>En sjekkeapp for viderekommende</h2>
+            </div>
+            <div class="main-content">
+                <div class="content-wrapper wrapper-base" id="element">
+                    <div class="img-wrapper first-img" data-sound='seagulls' data-num=1>
+                        <img src="img/seagull.jpg"> 
+                    </div>
+                    <div class="img-wrapper hidden" data-sound='seagulls' data-num=2>
+                            <img src="img/tiril.jpg">  
+                    </div>
+                    <div class="img-wrapper hidden" data-sound='seagulls' data-num=3>
+                        <img src="img/espen.jpg">  
+                    </div>
+                    <div class="img-wrapper hidden" data-sound='seagulls' data-num=4>
+                        <img src="img/tare.jpg">  
+                    </div>
+                    <div class="img-wrapper hidden" data-sound='seagulls' data-num=5>
+                        <img src="img/jonas.jpg"> 
+                    </div>
+                    <div class="img-wrapper hidden" data-sound='seagulls' data-num=6>
+                            <img class="img-einar" src="img/einar.jpg"> 
+                    </div>
+                    <div class="navigation">
+                        <div class="arrow" data-direction="left">
+                            <i class="fas fa-arrow-left fa-10x"></i>
+                        </div>
+                        <div class="arrow" data-direction="rigth">
+                            <i class="fas fa-arrow-right fa-10x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        var imageCount = 6;
+        let imageTracker = 1;
+        var sounds = {
+            'seagulls': 'gull.mp3'
+        }
+        var myElement = document.getElementById('element');
+        var mc = new Hammer(myElement);
+        $(document).ready(function(){
+            $('.wrapper').css('height', window.innerHeight + 'px');
+
+
+            $('.img-wrapper').click(function(e) {
+                let obj = document.createElement("audio");
+                let soundType = $(this).data('sound');
+                let soundFile = sounds[soundType];
+                obj.src = `sounds/${sounds[soundType]}`;
+                obj.play();
+
+            });
+
+            $('.arrow').click(function(){
+                $('[data-num="' + imageTracker + '"]').addClass('hidden');
+                if($(this).data('direction') === 'left'){
+                    if(imageTracker > 1){
+                        imageTracker -= 1;
+                    } else {
+                        imageTracker = 6;
+                    }
+                } else {
+                    if(imageTracker < imageCount){
+                        imageTracker += 1;
+                    } else {
+                        imageTracker = 1;
+                    }
+                }
+                $('[data-num="' + imageTracker + '"]').removeClass('hidden');
+            });
+
+            mc.on('swiperight', function(){
+                $('[data-num="' + imageTracker + '"]').addClass('hidden');
+                if(imageTracker > 1){
+                    imageTracker -= 1;
+                } else {
+                    imageTracker = 6;
+                }
+                $('[data-num="' + imageTracker + '"]').removeClass('hidden');
+            }).set({direction: Hammer.DIRECTION_HORIZONTAL});
+
+            mc.on('swipeleft', function(){
+                $('[data-num="' + imageTracker + '"]').addClass('hidden');
+                if(imageTracker < imageCount){
+                    imageTracker += 1;
+                } else {
+                    imageTracker = 1;
+                }
+                $('[data-num="' + imageTracker + '"]').removeClass('hidden');
+            }).set({direction: Hammer.DIRECTION_HORIZONTAL});
+
+
+        });
+    </script>
+</html>
